@@ -1,0 +1,382 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="referrer" content="no-referrer">
+    <title>*茶溯源·**铁观音详情查询</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: "PingFang SC","Microsoft YaHei",sans-serif;
+        }
+        body {
+            background-color: #f5f5f5;
+            color: #333;
+            line-height: 1.6;
+        }
+        .container {
+            max-width: 750px;
+            margin: 0 auto;
+            background: #fff;
+            min-height: 100vh;
+        }
+        .header {
+            background: linear-gradient(135deg, #2E7D32, #43A047);
+            color: #fff;
+            padding: 20px 16px;
+            text-align: center;
+        }
+        .header h1 {
+            font-size: 20px;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        .trace-code {
+            font-size: 14px;
+            opacity: 0.9;
+            margin: 10px 0;
+            font-weight: 500;
+        }
+        .chain-status {
+            display: inline-block;
+            background: rgba(255,255,255,0.2);
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 12px;
+            margin: 5px 0;
+        }
+        .bug-bar {
+            background: #ff4444;
+            color: #fff;
+            padding: 8px 16px;
+            margin: 12px 16px;
+            border-radius: 4px;
+            font-size: 14px;
+            font-weight: 500;
+        }
+        .tea-img {
+            width: 100%;
+            height: 180px;
+            background: #eee url('二维码/img/45d004cd66468d5c50262a3bc6ef38a2.jpg')no-repeat center center / cover;
+            border-radius: 8px;
+            border-radius: 8px;
+            margin-bottom: 12px;
+        }
+        .ai-module {
+            background: #f8fff9;
+            border: 1px solid #2E7D32;
+            border-radius: 8px;
+            padding: 12px;
+            margin: 16px;
+        }
+        .ai-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 8px;
+            display: flex;
+            align-items: center;
+        }
+        .ai-title::before {
+            content: "🤖";
+            margin-right: 8px;
+        }
+        .ai-item {
+            font-size: 14px;
+            color: #555;
+            margin-bottom: 4px;
+            padding-left: 8px;
+        }
+        .ai-chat-btn {
+            display: block;
+            width: 100%;
+            background: #2E7D32;
+            color: #fff;
+            text-align: center;
+            padding: 10px;
+            border-radius: 6px;
+            margin-top: 10px;
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            border: none;
+        }
+        .section {
+            padding: 16px;
+            border-bottom: 1px solid #eee;
+        }
+        .section-title {
+            font-size: 18px;
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+        }
+        .section-title::before {
+            content: "";
+            width: 4px;
+            height: 18px;
+            background: #2E7D32;
+            margin-right: 8px;
+            border-radius: 2px;
+        }
+        .verify-tag {
+            display: inline-block;
+            background: #E8F5E9;
+            color: #2E7D32;
+            font-size: 10px;
+            padding: 2px 6px;
+            border-radius: 4px;
+            margin-left: 8px;
+        }
+        .info-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 12px 8px;
+            font-size: 14px;
+        }
+        .info-item {
+            display: flex;
+            flex-direction: column;
+        }
+        .info-label {
+            color: #666;
+            font-size: 12px;
+            margin-bottom: 2px;
+        }
+        .info-value {
+            color: #333;
+            font-weight: 500;
+        }
+        .empty-value {
+            color: #ff4444;
+            font-style: italic;
+        }
+        .process-item {
+            background: #fafafa;
+            border-radius: 8px;
+            padding: 12px;
+            margin-top: 10px;
+        }
+        .process-title {
+            font-size: 16px;
+            font-weight: 600;
+            color: #2E7D32;
+            margin-bottom: 8px;
+        }
+        .process-desc {
+            font-size: 14px;
+            color: #555;
+            margin-left: 12px;
+            line-height: 1.8;
+        }
+        .footer {
+            padding: 20px 16px;
+            text-align: center;
+            background: #fafafa;
+        }
+        .btn {
+            display: inline-block;
+            background: #2E7D32;
+            color: #fff;
+            padding: 10px 24px;
+            border-radius: 24px;
+            font-size: 14px;
+            margin: 0 8px 12px;
+            text-decoration: none;
+        }
+    </style>
+</head>
+<body>
+<div class="container">
+    <div class="header">
+        <h1>*茶溯源·**铁观音详情查询</h1>
+        <div class="trace-code">【一码一茶·全程可信】唯一溯源码：SXZC20260415TC001</div>
+        <div class="chain-status">✅ 溯源信息已上链 | 区块链不可篡改记录</div>
+        <div class="chain-status">📦 本溯源码专属印制于**铁观音包装</div>
+        <div class="bug-bar">
+            Bug：扫码加载的溯源页面中，运输司机联系电话、工厂具体厂址、终端门店销售时间三类核心字段为空，信息展示不完整
+        </div>
+    </div>
+
+    <div class="section">
+        <div class="tea-img"></div>
+        <h2 class="section-title">商品核心信息<span class="verify-tag">学生采集·教师核验</span></h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">商品名称</span>
+                <span class="info-value">**铁观音（清香型特级）</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">压制时间</span>
+                <span class="info-value">2026-02-15 09:30</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">包装规格</span>
+                <span class="info-value">500g/盒</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">产地归属</span>
+                <span class="info-value">**省**市**县</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">销售门店</span>
+                <span class="info-value">**市**县***茶庄</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">生产批次</span>
+                <span class="info-value">2026-AX-018</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="ai-module">
+        <div class="ai-title">AI智能服务模块</div>
+        <div class="ai-item">📸 扫码自动验真，一键辨别产品真伪</div>
+        <div class="ai-item">📊 全流程溯源，从茶园到茶杯透明可查</div>
+        <div class="ai-item">💬 智能客服：真伪查询、冲泡方法、保存建议</div>
+        <a href="ai_chat.html" class="ai-chat-btn">进入AI智能客服对话</a>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">🌱 茶农信息与采摘环节<span class="verify-tag">学生采集·教师核验</span></h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">茶叶品种</span>
+                <span class="info-value">**铁观音</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">产地</span>
+                <span class="info-value">**省**市**县**镇</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">种植时间</span>
+                <span class="info-value">2023-03-15</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">采摘时间</span>
+                <span class="info-value">2026-02-10 05:30</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">茶农姓名</span>
+                <span class="info-value">李国强</span>
+            </div>
+        </div>
+
+        <div class="process-item">
+            <div class="process-title">鲜叶初制流程（含时间）</div>
+            <div class="process-desc">✅ 鲜叶检测：2026-02-10 07:00，合格入库</div>
+            <div class="process-desc">✅ 萎凋：2026-02-10 08:30，时长4小时</div>
+            <div class="process-desc">✅ 做青：2026-02-10 12:00，时长6小时</div>
+            <div class="process-desc">✅ 杀青：2026-02-10 18:00，温度220℃，时长8分钟</div>
+            <div class="process-desc">✅ 揉捻：2026-02-10 19:00，时长20分钟</div>
+            <div class="process-desc">✅ 干燥：2026-02-10 21:00，低温烘干3小时</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">🚚 运输司机信息与运输记录<span class="verify-tag">学生采集·教师核验</span></h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">司机姓名</span>
+                <span class="info-value">陈建军</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">年龄</span>
+                <span class="info-value">45</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">联系电话</span>
+                <span class="info-value empty-value">（空）</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">车牌号</span>
+                <span class="info-value">*C·A8899</span>
+            </div>
+        </div>
+
+        <div class="process-item">
+            <div class="process-title">运输记录</div>
+            <div class="process-desc">✅ 取货时间：2026-02-15 08:00（**加工厂）</div>
+            <div class="process-desc">✅ 到货时间：2026-02-16 09:00（**仓储中心）</div>
+            <div class="process-desc">✅ 运输损坏率：0%</div>
+            <div class="process-desc">✅ 运输方式：恒温防潮专车运输</div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">🏭 **铁观音茶业有限公司<span class="verify-tag">学生采集·教师核验</span></h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">产品名称</span>
+                <span class="info-value">**铁观音（清香型特级）</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">生产批次</span>
+                <span class="info-value">2026-AX-018</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">生产时间</span>
+                <span class="info-value">2026-02-10 至 2026-02-15</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">包装材料</span>
+                <span class="info-value">内层锡纸 + 外层纸盒 + 礼盒</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">包装形式</span>
+                <span class="info-value">单盒独立封装，500g/盒</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">工厂名称</span>
+                <span class="info-value">**铁观音茶业有限公司</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">工厂厂址</span>
+                <span class="info-value empty-value">（空）</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">工厂电话</span>
+                <span class="info-value">0595-26618889</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="section">
+        <h2 class="section-title">🛒 终端商店信息与销售记录<span class="verify-tag">学生采集·教师核验</span></h2>
+        <div class="info-grid">
+            <div class="info-item">
+                <span class="info-label">商品名称</span>
+                <span class="info-value">**铁观音清香型特级</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">存入时间</span>
+                <span class="info-value">2026-02-16 09:00</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">销售时间</span>
+                <span class="info-value empty-value">（空）</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">商店位置</span>
+                <span class="info-value">**省**市**县**路***号</span>
+            </div>
+            <div class="info-item">
+                <span class="info-label">商店电话</span>
+                <span class="info-value">13959595564</span>
+            </div>
+        </div>
+    </div>
+
+    <div class="footer">
+        <a class="btn">产品检验报告</a>
+        <a class="btn">地理标志认证</a>
+        <div style="font-size:12px;color:#666;margin-top:8px;">**铁观音产业服务热线：0595-12316</div>
+    </div>
+</div>
+</body>
+</html>
